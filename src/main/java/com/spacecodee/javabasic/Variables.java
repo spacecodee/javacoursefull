@@ -1,5 +1,7 @@
 package com.spacecodee.javabasic;
 
+import java.util.ArrayList;
+
 public class Variables {
     //Java => nomenclatura camelCase
     //variables => area ✅ | Area ❌ | AREA ❌ || firstName ✅ | firstname | FirstName
@@ -20,6 +22,7 @@ public class Variables {
      * String | cadenas largas
      * */
 
+    //declarar varibales tradicionalmente
     byte number2 = -127;
     int number1 = 999999999;
     long number3 = 5294945844445454549L;
@@ -31,8 +34,33 @@ public class Variables {
 
     char aChar1 = 'c';
 
+    Byte aByte = 1;
+    Integer integer = 1;
+    Long aLong = 1L;
+    Float aFloat = 1F;
+    Double aDouble = 1D;
+    Boolean aBoolean = true;
     String string = "my string";
 
-    public void myString() {
+    //desde java 11+
+    /*
+     * var nombre = ""; | incialices ✅
+     * var[] arreglo = new String[15]; ❌
+     * var => estar en un contexto.
+     * */
+
+    public Variables() {
+        var talCosa = new int[5];
+        var arrayList = new ArrayList<String>();
     }
+
+    /*
+     * forma correcta vairbales:
+     * myVariable ✅
+     * MyVariable ❌
+     * MYVARIABLE ❌
+     * MyVARIABLE ❌
+     * */
+
+
 }
