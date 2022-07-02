@@ -43,9 +43,11 @@ public class EntradaDatos {
         JOptionPane.showMessageDialog(null, "user = " + user, "User information", JOptionPane.INFORMATION_MESSAGE);
     }
 
+
     private static void implementsUserCar() {
         char option;
-        int id = 1;
+        int idUser = 1;
+        int idCar=1;
         final Scanner scanner = new Scanner(System.in);
         List<User> users = new ArrayList<>();
         List<Car> cars = new ArrayList<>();
@@ -57,12 +59,21 @@ public class EntradaDatos {
             option = scanner.nextLine().charAt(0);
 
             switch (option) {
-                case '1' -> EntradaDatos.getUsersContext(scanner, cars, users, id);
-                case '2' -> System.out.println("users = " + users);
-                case '3' -> System.out.println("cars = " + cars);
-                default -> option = '4';
+                case '1':
+                    EntradaDatos.getUsersContext(scanner, cars, users, idUser, idCar);
+                    idUser++;
+                    break;
+                case '2':
+                    System.out.println("users = " + users);
+                    break;
+                case '3':
+                    System.out.println("cars = " + cars);
+                    break;
+                default:
+                    option = '4';
+                    break;
             }
-            id++;
+
         } while (option != '4');
     }
 
@@ -81,12 +92,12 @@ public class EntradaDatos {
         System.out.println("Ingrese una opcion: ");
     }
 
-    private static void getUsersContext(Scanner scanner, List<Car> cars, List<User> users, int id) {
+    private static void getUsersContext(Scanner scanner, List<Car> cars, List<User> users, int idUser,int idCar) {
         char addCar;
         User user = new User();
         List<Car> carList = new ArrayList<>();
 
-        user.setId(id);
+        user.setId(idUser);
         System.out.println("Ingresa tu nombre");
         user.setName(scanner.nextLine().trim());
         System.out.println("Ingresa tu apellido");
@@ -95,23 +106,19 @@ public class EntradaDatos {
         user.setUser(scanner.nextLine().trim());
         System.out.println("Ingresa tu contraseña");
         user.setPassword(scanner.nextLine().trim());
-        System.out.println("""
-                                   ¿Quieres agregar un carro?
-                                   S: Si
-                                   N: No
-                                   """);
+        System.out.println("¿Quieres agregar un carro?\nS: Si\nN: No");
         addCar = scanner.nextLine().charAt(0);
-        EntradaDatos.addCarsToUser(scanner, cars, carList, id, addCar);
+        EntradaDatos.addCarsToUser(scanner, cars, carList, idCar, addCar);
 
         user.setCars(carList);
         users.add(user);
     }
 
-    private static void addCarsToUser(Scanner scanner, List<Car> cars, List<Car> carList, int id, char addCar) {
+    private static void addCarsToUser(Scanner scanner, List<Car> cars, List<Car> carList, int idCar, char addCar) {
         while (addCar == 'S' || addCar == 's') {
             Car car = new Car();
 
-            car.setId(id);
+            car.setId(idCar);
 
             System.out.println("Ingrese la marca del carro");
             car.setBrand(scanner.nextLine().trim());
@@ -122,15 +129,14 @@ public class EntradaDatos {
 
             carList.add(car);
             cars.addAll(carList);
-            System.out.println("""
-                                       ¿Quieres agregar un carro?
-                                       S: Si
-                                       N: No
-                                       """);
+
+            System.out.println("¿Quieres agregar un carro?\nS: Si\nN: No");
             addCar = scanner.nextLine().charAt(0);
-            id++;
+            idCar++;
         }
+
     }
+
 
     public static void main(String[] args) {
         EntradaDatos.implementsUserCar();
