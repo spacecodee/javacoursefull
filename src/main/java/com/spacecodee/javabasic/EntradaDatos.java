@@ -9,6 +9,10 @@ import java.util.Scanner;
 
 public class EntradaDatos {
 
+    /*TODO:shortcuts Intellij
+     * Alt + Enter -> Extract to Method
+     * */
+
     private static void toScanner() {
         Scanner scanner = new Scanner(System.in);
         User user = new User();
@@ -40,38 +44,49 @@ public class EntradaDatos {
     }
 
     private static void implementsUserCar() {
+        char option;
+        int id = 1;
         final Scanner scanner = new Scanner(System.in);
         List<User> users = new ArrayList<>();
         List<Car> cars = new ArrayList<>();
-        User user = new User();
-        char option;
-        int id = 1;
 
-        System.out.println("Hola, gracias por entrar a nuestro programa");
-        System.out.println("Enjoy");
+        EntradaDatos.WelcomeToProgram();
 
         do {
-            System.out.println("\n");
-            System.out.println("1. Crear usuario");
-            System.out.println("2. Mostrar usuarios");
-            System.out.println("3. Mostrar carros");
-            System.out.println("4. Salir");
-            System.out.println("\n");
-            System.out.println("Ingrese una opcion: ");
+            EntradaDatos.menuOption();
             option = scanner.nextLine().charAt(0);
 
             switch (option) {
-                case '1' -> id = getUsersContext(scanner, cars, user, id);
-                case '2' -> System.out.println("user = " + user);
+                case '1' -> EntradaDatos.getUsersContext(scanner, cars, users, id);
+                case '2' -> System.out.println("users = " + users);
                 case '3' -> System.out.println("cars = " + cars);
                 default -> option = '4';
             }
+            id++;
         } while (option != '4');
     }
 
-    private static int getUsersContext(Scanner scanner, List<Car> cars, User user, int id) {
+    private static void WelcomeToProgram() {
+        System.out.println("Hola, gracias por entrar a nuestro programa");
+        System.out.println("Enjoy");
+    }
+
+    private static void menuOption() {
+        System.out.println("\n");
+        System.out.println("1. Crear usuario");
+        System.out.println("2. Mostrar usuarios");
+        System.out.println("3. Mostrar carros");
+        System.out.println("4. Salir");
+        System.out.println("\n");
+        System.out.println("Ingrese una opcion: ");
+    }
+
+    private static void getUsersContext(Scanner scanner, List<Car> cars, List<User> users, int id) {
         char addCar;
-        user.setId(1);
+        User user = new User();
+        List<Car> carList = new ArrayList<>();
+
+        user.setId(id);
         System.out.println("Ingresa tu nombre");
         user.setName(scanner.nextLine().trim());
         System.out.println("Ingresa tu apellido");
@@ -86,6 +101,13 @@ public class EntradaDatos {
                                    N: No
                                    """);
         addCar = scanner.nextLine().charAt(0);
+        EntradaDatos.addCarsToUser(scanner, cars, carList, id, addCar);
+
+        user.setCars(carList);
+        users.add(user);
+    }
+
+    private static void addCarsToUser(Scanner scanner, List<Car> cars, List<Car> carList, int id, char addCar) {
         while (addCar == 'S' || addCar == 's') {
             Car car = new Car();
 
@@ -98,7 +120,8 @@ public class EntradaDatos {
             System.out.println("Ingrese el color del carro: ");
             car.setColor(scanner.nextLine().trim());
 
-            cars.add(car);
+            carList.add(car);
+            cars.addAll(carList);
             System.out.println("""
                                        ¿Quieres agregar un carro?
                                        S: Si
@@ -107,8 +130,6 @@ public class EntradaDatos {
             addCar = scanner.nextLine().charAt(0);
             id++;
         }
-        user.setCars(cars);
-        return id;
     }
 
     public static void main(String[] args) {
