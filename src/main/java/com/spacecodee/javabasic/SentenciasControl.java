@@ -35,11 +35,11 @@ public class SentenciasControl {
 
     public static void validatePeopleOlderThan18WhitSwitch() {
         switch (SentenciasControl.agePerson3) {
-            case 16 -> System.out.println(SentenciasControl.olderThan + " - | " + SentenciasControl.agePerson1);
-            case 17 -> System.out.println(SentenciasControl.olderThan + " - | - " + SentenciasControl.agePerson2);
-            case 25 -> System.out.println(SentenciasControl.olderThan + " - | - | " + SentenciasControl.agePerson3);
-            case 19 -> System.out.println(SentenciasControl.olderThan + " - | - | " + SentenciasControl.agePerson4);
-            default -> System.out.println(SentenciasControl.olderThan + " - " + SentenciasControl.agePerson1);
+            case 16 : System.out.println(SentenciasControl.olderThan + " - | " + SentenciasControl.agePerson1);break;
+            case 17 : System.out.println(SentenciasControl.olderThan + " - | - " + SentenciasControl.agePerson2);break;
+            case 25 : System.out.println(SentenciasControl.olderThan + " - | - | " + SentenciasControl.agePerson3);break;
+            case 19 : System.out.println(SentenciasControl.olderThan + " - | - | " + SentenciasControl.agePerson4);break;
+            default : System.out.println(SentenciasControl.olderThan + " - " + SentenciasControl.agePerson1);break;
         }
     }
 
