@@ -3,9 +3,8 @@ package com.spacecodee.javabasic;
 import lombok.*;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+
 
 public class EntradaDatos {
 
@@ -13,7 +12,11 @@ public class EntradaDatos {
      * Alt + Enter -> Extract to Method
      * ctrl + alt + l
      * shit+F6 renombrar metdos variables etc.
+     * static final =CONSTANTE
      * */
+    private static final Scanner SCANNER = new Scanner ( System.in );
+    private static final List < User > USERS = new ArrayList <> ( );
+    private static final List < Car > CARS = new ArrayList <> ( );
 
     private static void toScanner ( ) {
         Scanner scanner = new Scanner ( System.in );
@@ -45,49 +48,53 @@ public class EntradaDatos {
         JOptionPane.showMessageDialog ( null , "user = " + user , "User information" , JOptionPane.INFORMATION_MESSAGE );
     }
 
-    //public static
+
     private static void implementsUserCar ( ) {
         char option;
         int idUser = 1;
-        final Scanner scanner = new Scanner ( System.in );
-        List < User > users = new ArrayList <> ( );
-        List < Car > cars = new ArrayList <> ( );
+
 
         EntradaDatos.WelcomeToProgram ( );
 
         do {
             EntradaDatos.menuOption ( );
-            option = scanner.nextLine ( ).charAt ( 0 );
+            option = EntradaDatos.SCANNER.nextLine ( ).charAt ( 0 );
 
             switch ( option ) {
                 case '1':
-                    EntradaDatos.getUsersContext ( scanner , cars , users , idUser );
+                    EntradaDatos.getUsersContext ( idUser );
                     idUser++;
                     break;
                 case '2':
-                    System.out.println ( "users = " + users );
+                    System.out.println ( "users = " + EntradaDatos.USERS );
                     break;
                 case '3':
-                    System.out.println ( "cars = " + cars );
+                    System.out.println ( "cars = " + EntradaDatos.CARS );
                     break;
                 case '4':
-                    EntradaDatos.editCarById ( scanner , cars );
+                    EntradaDatos.editCarById ( );
                     break;
                 case '5':
-                    EntradaDatos.deleteCarForId ( scanner , cars );
+                    EntradaDatos.deleteCarForId ( );
                     break;
                 case '6':
-                    EntradaDatos.editUserById ( scanner , users );
+                    EntradaDatos.editUserById ( );
                     break;
                 case '7':
-                    EntradaDatos.deleteUserById ( scanner , users ,cars);
+                    EntradaDatos.deleteUserById ( );
+                    break;
+                case '8':
+                    EntradaDatos.searchByUserNameUser ( );
+                    break;
+                case '9':
+                    System.out.println (EntradaDatos.searchByIdCar ( ) );
                     break;
                 default:
-                    option = '8';
+                    option = '0';
                     break;
             }
 
-        } while ( option != '8' );
+        } while ( option != '0' );
     }
 
     private static void WelcomeToProgram ( ) {
@@ -104,7 +111,9 @@ public class EntradaDatos {
         System.out.println ( "5. Eliminar carro" );
         System.out.println ( "6. Editar usuario" );
         System.out.println ( "7. Eliminar usuario" );
-        System.out.println ( "8. Salir" );
+        System.out.println ( "8. Buscar usuario por username" );
+        System.out.println ( "9. Buscar carro por Id" );
+        System.out.println ( "0. Salir" );
         System.out.println ( "\n" );
         System.out.println ( "Ingrese una opcion: " );
         //buscar usuario por username y carro por Id
@@ -112,115 +121,167 @@ public class EntradaDatos {
         //campos no debe estar vacios volver a pedir campo
     }
 
-    private static void deleteCarForId ( Scanner scanner , List < Car > cars ) {
-        int codCar;
-        codCar = getCodCar ( scanner , "Ingrese el codigo del carro a eliminar: " );
-        removeCars ( cars , codCar );
+    private static Map<String , Object > searchByIdCar ( ) {
+        Map<String,Object> mapa=new HashMap <> (  );
+        int codCar = EntradaDatos.getCodCar ( "Ingresa el codigo del carro a buscar" );
+        mapa.put ( "Id",codCar );
+        System.out.println (EntradaDatos.CARS );
+        for ( Car car : EntradaDatos.CARS ) {
+            if ( codCar == car.getId ( ) ) {
+                mapa.put ( "Carro",car );
+                return mapa;
+            }
+        }
+        mapa.put ( "Carro",null );
+        return mapa;
     }
 
-    private static void removeCars ( List < Car > cars , int codCar ) {
-        for ( Car car : cars ) {
+    private static void searchByUserNameUser ( ) {
+        String userName;
+
+        boolean existe;
+        System.out.println ( "Ingrese el username de usuario" );
+        userName = EntradaDatos.SCANNER.nextLine ( ).trim ( ).toLowerCase ( );
+        for ( User user : EntradaDatos.USERS ) {
+            existe = user.getUser ( ).equals ( userName );
+            if ( existe ) {
+                System.out.println ( "user = " + user );
+                break;
+            }
+
+        }//fin for
+    }
+
+    private static void deleteCarForId ( ) {
+        int codCar;
+        codCar = EntradaDatos.getCodCar ( "Ingrese el codigo del carro a eliminar: " );
+        removeCars ( codCar );
+    }
+
+    private static void removeCars ( int codCar ) {
+        for ( Car car : EntradaDatos.CARS ) {
             if ( codCar == car.getId ( ) ) {
-                cars.remove ( car );
+                EntradaDatos.CARS.remove ( car );
                 break;
             }
         }
     }
 
-    private static void editCarById ( Scanner scanner , List < Car > cars ) {
-        int codCar;
-        codCar = getCodCar ( scanner , "Ingrese el codigo del carro: " );
-        for ( Car car : cars ) {
+    private static void editCarById ( ) {
+        int codCar = EntradaDatos.getCodCar ( "Ingresa el codigo del carro a editar" );
+        for ( Car car : EntradaDatos.CARS ) {
             if ( codCar == car.getId ( ) ) {
-                EntradaDatos.setMarcaModelColorToCar ( scanner , car );
+                EntradaDatos.setMarcaModelColorToCar ( car );
                 break;
             }
         }
     }
 
-    private static void editUserById ( Scanner scanner , List < User > users ) {
-        int IdUser = getIdUser ( scanner );
-        for ( User user : users ) {
+
+    private static void editUserById ( ) {
+        int IdUser = EntradaDatos.getIdUser ( );
+        for ( User user : EntradaDatos.USERS ) {
             if ( IdUser == user.getId ( ) ) {
-                setDatosUser ( scanner , user );
+                EntradaDatos.setDatosUser ( user );
                 break;
             }
-        }
+        }//fin for
     }
 
-    private static int getIdUser ( Scanner scanner ) {
+    private static int getIdUser ( ) {
         int IdUser;
         System.out.println ( "Ingrese el Id de usuario" );
-        IdUser = Integer.parseInt ( scanner.nextLine ( ) );
+        IdUser = Integer.parseInt ( EntradaDatos.SCANNER.nextLine ( ) );
         return IdUser;
     }
 
-    private static void deleteUserById ( Scanner scanner , List < User > users,List <Car> cars ) {
-        int IdUser = getIdUser ( scanner );
-        for ( User user : users ) {
+
+    private static void deleteUserById ( ) {
+        int IdUser = EntradaDatos.getIdUser ( );
+        for ( User user : EntradaDatos.USERS ) {
             if ( IdUser == user.getId ( ) ) {
-                users.remove ( user );
-                cars.removeAll ( user.getCars () );
+                EntradaDatos.USERS.remove ( user );
+                EntradaDatos.CARS.removeAll ( user.getCars ( ) );
                 break;
             }
         }
     }
-    private static int getCodCar ( Scanner scanner , String message ) {
-        int codCar;
+
+    private static int getCodCar ( String message ) {
         System.out.println ( message );
-        codCar = Integer.parseInt ( scanner.nextLine ( ).trim ( ) );
-        return codCar;
+        return Integer.parseInt ( EntradaDatos.SCANNER.nextLine ( ).trim ( ) );
     }
 
-    private static void getUsersContext ( Scanner scanner , List < Car > cars , List < User > users , int idUser ) {
+    private static void getUsersContext ( int idUser ) {
         char addCar;
-        List < Car > carList = new ArrayList <> ( );
+        List < Car > carList;
         User user = new User ( );
         user.setId ( idUser );
-        setDatosUser ( scanner , user );
-
+        EntradaDatos.setDatosUser ( user );
         System.out.println ( "¿Quieres agregar un carro?\nS: Si\nN: No" );
-        addCar = scanner.nextLine ( ).charAt ( 0 );
+        addCar = EntradaDatos.SCANNER.nextLine ( ).charAt ( 0 );
 
-        EntradaDatos.addCarsToUser ( scanner , cars , carList , addCar );
+        carList=EntradaDatos.addCarsToUser (  addCar );
         user.setCars ( carList );
-        users.add ( user );
+        EntradaDatos.USERS.add ( user );
+        EntradaDatos.CARS.addAll ( carList );
 
     }
 
-    private static void setDatosUser ( Scanner scanner , User user ) {
+    private static void setDatosUser ( User user ) {
+        // do{
+        //    String nombre,apellido,usuario,clave;
         System.out.println ( "Ingresa tu nombre" );
-        user.setName ( scanner.nextLine ( ).trim ( ) );
+        user.setName ( EntradaDatos.SCANNER.nextLine ( ).trim ( ) );
         System.out.println ( "Ingresa tu apellido" );
-        user.setLastName ( scanner.nextLine ( ).trim ( ) );
+        user.setLastName ( EntradaDatos.SCANNER.nextLine ( ).trim ( ) );
         System.out.println ( "Ingresa tu nombre de usuario" );
-        user.setUser ( scanner.nextLine ( ).trim ( ) );
+        user.setUser ( EntradaDatos.SCANNER.nextLine ( ).trim ( ).toLowerCase ( ) );
         System.out.println ( "Ingresa tu contraseña" );
-        user.setPassword ( scanner.nextLine ( ).trim ( ) );
+        user.setPassword ( EntradaDatos.SCANNER.nextLine ( ).trim ( ) );
+        //  }while ( scanner.equals ( nombre=="" | apellido,usuario,clave));
     }
 
-    private static void addCarsToUser ( Scanner scanner , List < Car > cars , List < Car > carList , char addCar ) {
+    private static List<Car> addCarsToUser ( char addCar ) {
+        List <Car> carList=new ArrayList <> (  );
+        int codCar;
+        String existeIdCar = "OK";
+        Car carExist;
+        Map<String,Object> mapa;
         while ( addCar == 'S' || addCar == 's' ) {
+            do {
+                /*System.out.println ( "Ingrese el codigo del carro" );
+                codCar = Integer.parseInt ( EntradaDatos.SCANNER.nextLine ( ).trim ( ) );
+                System.out.println ( EntradaDatos.CARS.size ( ) );*/
+                mapa=EntradaDatos.searchByIdCar ();
+
+                carExist=(Car)mapa.get ( "Carro" );
+                codCar=(Integer ) mapa.get ( "Id" );
+                if ( carExist!=null ){
+                    existeIdCar="existe";
+                }else{
+                    existeIdCar="OK";
+                }
+            } while ( ! existeIdCar.equals ( "OK" ) );
+
 
             Car car = new Car ( );
-
-            System.out.println ( "Ingrese el codigo del carro" );
-            car.setId ( Integer.parseInt ( scanner.nextLine ( ).trim ( ) ) );
-            EntradaDatos.setMarcaModelColorToCar ( scanner , car );
+            car.setId ( codCar );
+            EntradaDatos.setMarcaModelColorToCar ( car );
             carList.add ( car );
             System.out.println ( "¿Quieres agregar un carro?\nS: Si\nN: No" );
-            addCar = scanner.nextLine ( ).charAt ( 0 );
+            addCar = EntradaDatos.SCANNER.nextLine ( ).charAt ( 0 );
         }
-        cars.addAll ( carList );
+        return carList;
     }
 
-    private static void setMarcaModelColorToCar ( Scanner scanner , Car car ) {
+    private static void setMarcaModelColorToCar ( Car car ) {
         System.out.println ( "Ingrese la marca del carro" );
-        car.setBrand ( scanner.nextLine ( ).trim ( ) );
+        car.setBrand ( EntradaDatos.SCANNER.nextLine ( ).trim ( ) );
         System.out.println ( "Ingrese el modelo del carro: " );
-        car.setModel ( scanner.nextLine ( ).trim ( ) );
+        car.setModel ( EntradaDatos.SCANNER.nextLine ( ).trim ( ) );
         System.out.println ( "Ingrese el color del carro: " );
-        car.setColor ( scanner.nextLine ( ).trim ( ) );
+        car.setColor ( EntradaDatos.SCANNER.nextLine ( ).trim ( ) );
     }
 
 
