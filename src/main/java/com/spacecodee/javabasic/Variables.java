@@ -7,7 +7,7 @@ public class Variables {
     //variables => area ✅ | Area ❌ | AREA ❌ || firstName ✅ | firstname | FirstName
     //functions => public void sumar(); ✅ | Sumar() ❌ | SUMAR(); ❌ || quieroSumar();
     //Classes => Product ✅ | product ❌ | PRODUCT ❌ || UserRoles ✅ | USERroles | userRoleS
-    //Constants => AGE | age | AgE
+    //Constants => AGE_PEOPLE | age | AgE
 
     //tipos de datos
     /*
