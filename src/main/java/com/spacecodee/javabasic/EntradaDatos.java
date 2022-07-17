@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class EntradaDatos {
 
-    /*TODO:shortcuts Intellij
+    /*shortcuts Intellij
      * Alt + Enter -> Extract to Method
      * */
 
@@ -24,7 +24,7 @@ public class EntradaDatos {
         user.setLastName(scanner.nextLine().trim());
 
         System.out.println("Ingrese su usuario: ");
-        user.setUser(scanner.nextLine().toLowerCase().trim());
+        user.setUsername(scanner.nextLine().toLowerCase().trim());
 
         System.out.println("Ingrese su contraseña: ");
         user.setPassword(scanner.nextLine().trim());
@@ -37,7 +37,7 @@ public class EntradaDatos {
 
         user.setName(JOptionPane.showInputDialog("Ingrese su nombre: ").trim());
         user.setLastName(JOptionPane.showInputDialog("Ingrese su apellido: ").trim());
-        user.setUser(JOptionPane.showInputDialog("Ingrese su usuario: ").toLowerCase().trim());
+        user.setUsername(JOptionPane.showInputDialog("Ingrese su usuario: ").toLowerCase().trim());
         user.setPassword(JOptionPane.showInputDialog("Ingrese su contraseña: ").trim());
 
         JOptionPane.showMessageDialog(null, "user = " + user, "User information", JOptionPane.INFORMATION_MESSAGE);
@@ -78,8 +78,7 @@ public class EntradaDatos {
     }
 
     private static void WelcomeToProgram() {
-        System.out.println("Hola, gracias por entrar a nuestro programa");
-        System.out.println("Enjoy");
+        System.out.println("Hola, gracias por entrar a nuestro programa\nEnjoy!");
     }
 
     private static void menuOption() {
@@ -103,7 +102,7 @@ public class EntradaDatos {
         System.out.println("Ingresa tu apellido");
         user.setLastName(scanner.nextLine().trim());
         System.out.println("Ingresa tu nombre de usuario");
-        user.setUser(scanner.nextLine().trim());
+        user.setUsername(scanner.nextLine().trim());
         System.out.println("Ingresa tu contraseña");
         user.setPassword(scanner.nextLine().trim());
         System.out.println("¿Quieres agregar un carro?\nS: Si\nN: No");
@@ -150,7 +149,7 @@ class User {
     private int id;
     private String name;
     private String lastName;
-    private String user;
+    private String username;
     private String password;
     private List<Car> cars;
 }
