@@ -47,7 +47,7 @@ public class EntradaDatos {
     private static void implementsUserCar() {
         char option;
         int idUser = 1;
-        int idCar=1;
+        int idCar = 1;
         final Scanner scanner = new Scanner(System.in);
         List<User> users = new ArrayList<>();
         List<Car> cars = new ArrayList<>();
@@ -91,7 +91,7 @@ public class EntradaDatos {
         System.out.println("Ingrese una opcion: ");
     }
 
-    private static void getUsersContext(Scanner scanner, List<Car> cars, List<User> users, int idUser,int idCar) {
+    private static void getUsersContext(Scanner scanner, List<Car> cars, List<User> users, int idUser, int idCar) {
         char addCar;
         User user = new User();
         List<Car> carList = new ArrayList<>();
