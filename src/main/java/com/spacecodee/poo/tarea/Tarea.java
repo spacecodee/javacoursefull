@@ -12,6 +12,7 @@ public class Tarea {
         System.out.println("************Libro*********");
         Libro libro = new Libro("Programación C#", 2018, 50.75);
         System.out.println(libro);
+        libro.validarLibroConBibliografia();
         libro.obtenerPrecioLibro();
         libro.elPorcentajeLeido("30%");
         System.out.println("************Editorial*********");
@@ -19,7 +20,7 @@ public class Tarea {
         System.out.println(editorial);
         editorial.cantidadVendida(100);
         System.out.println("************Autor*********");
-        Autor autor = new Autor("Jon", "Allen");
+        Autor autor = new Autor("Jon", "Allen", 'M');
         System.out.println(autor);
         autor.publicar(5);
     }
@@ -45,7 +46,10 @@ class Libro {
         this.titulo = titulo;
         this.year = year;
         this.precio = precio;
-        if ((Libro.YEAR_NOW - year) < 5) {
+    }
+
+    public void validarLibroConBibliografia() {
+        if ((Libro.YEAR_NOW - this.getYear()) < 5) {
             System.out.println("Sirve para Bibliografía");
         }
         else {
@@ -58,7 +62,7 @@ class Libro {
     }
 
     public void elPorcentajeLeido(String porcentaje) {
-        System.out.printf("El libro %s tiene %s de lectura\n", this.getTitulo(), porcentaje);
+        System.out.printf("El libro %s tiene un %s de lectura\n", this.getTitulo(), porcentaje);
     }
 }
 
@@ -91,7 +95,7 @@ class Autor {
     private String nui;
     private String nombre;
     private String apellido;
-    private char genre;
+    private String genre;
 
     public Autor(String nombre, String apellido) {
         this.nombre = nombre;
@@ -101,7 +105,12 @@ class Autor {
     public Autor(String nombre, String apellido, char genre) {
         this.nombre = nombre;
         this.apellido = apellido;
-        this.genre = genre;
+        if (genre == 'M') {
+            this.genre = "Masculino";
+        }
+        else {
+            this.genre = "Femenino";
+        }
     }
 
     public void publicar(int quantity) {
