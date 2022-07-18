@@ -4,24 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 public class Tarea {
 
-    public static void main ( String[] args ) {
-        System.out.println ("************Libro*********" );
-        //Libro libro=new Libro ("012245","Java desde cero",2010,14.75);
-        //Libro libro = new Libro ( "Programacion C#" , 80.25 );
-        Libro libro = new Libro ( "Programacion C#" , 2018,50.75 );
-        System.out.println ( libro );
-        libro.comprar ( );
-        libro.leer ( "30%" );
-        System.out.println ("************Editorial*********" );
-        Editorial editorial=new Editorial ( "Mc Graw Hill" );
-        System.out.println (editorial );
-        editorial.vender ();
-        System.out.println ("************Autor*********" );
-        Autor autor=new Autor ( "Jhon","Allen" );
-        System.out.println (autor );
-        autor.publicar ();
+    public static void main(String[] args) {
+        System.out.println("************Libro*********");
+        Libro libro = new Libro("Programación C#", 2018, 50.75);
+        System.out.println(libro);
+        libro.obtenerPrecioLibro();
+        libro.elPorcentajeLeido("30%");
+        System.out.println("************Editorial*********");
+        Editorial editorial = new Editorial("Mc Grow Hill");
+        System.out.println(editorial);
+        editorial.cantidadVendida(100);
+        System.out.println("************Autor*********");
+        Autor autor = new Autor("Jon", "Allen");
+        System.out.println(autor);
+        autor.publicar(5);
     }
 
 }
@@ -29,70 +29,82 @@ public class Tarea {
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
- class Libro {
+class Libro {
     private String isbn;
     private String titulo;
-    private int anio;
+    private int year;
     private double precio;
+    private static final int YEAR_NOW = LocalDate.now().getYear();
 
-    public Libro ( String titulo , double precio ) {
+    public Libro(String titulo, double precio) {
         this.titulo = titulo;
         this.precio = precio;
     }
-    public Libro ( String titulo , int anio ,double precio) {
+
+    public Libro(String titulo, int year, double precio) {
         this.titulo = titulo;
-        this.anio = anio;
-        this.precio=precio;
-        if ( (2022-anio)<5) {
-            System.out.println ("Sirve para Biliografia" );
+        this.year = year;
+        this.precio = precio;
+        if ((Libro.YEAR_NOW - year) < 5) {
+            System.out.println("Sirve para Bibliografía");
         }
         else {
-            System.out.println ("Ya esta obsoleto." );
+            System.out.println("Ya esta obsoleto.");
         }
     }
-    public void comprar ( ) {
-        System.out.println ( this.getTitulo ( ) + " ha sido comprado a un precio de " + getPrecio ( ) );
+
+    public void obtenerPrecioLibro() {
+        System.out.printf("El precio del libro %s es %.2f\n", this.getTitulo(), this.getPrecio());
     }
 
-    public void leer ( String porcentaje ) {
-        System.out.println ( this.getTitulo ( ) + " ha sido leido un " + porcentaje );
+    public void elPorcentajeLeido(String porcentaje) {
+        System.out.printf("El libro %s tiene %s de lectura\n", this.getTitulo(), porcentaje);
     }
 }
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-class Editorial{
-    private int codigo;
+class Editorial {
+    private int uniqueCode;
     private String nombre;
-    private int anioPublicacion;
-    public Editorial (String nombre){
-        this.nombre=nombre;
+    private int publishYear;
+
+    public Editorial(String nombre) {
+        this.nombre = nombre;
     }
-    public Editorial (String nombre,int anioPublicacion){
-        this.nombre=nombre;
+
+    public Editorial(String nombre, int publishYear) {
+        this.nombre = nombre;
+        this.publishYear = publishYear;
     }
-    public void vender(){
-        System.out.println (this.getNombre () + " ha vendido 1000 libros." );
+
+    public void cantidadVendida(int quantity) {
+        System.out.printf("La editorial %s vendió %d libros\n", this.getNombre(), quantity);
     }
 }
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-class Autor{
-    private String NUI;
+class Autor {
+    private String nui;
     private String nombre;
     private String apellido;
-    private char sexo;
-    public Autor(String nombre, String apellido){
-        this.nombre=nombre;
-        this.apellido=apellido;
+    private char genre;
+
+    public Autor(String nombre, String apellido) {
+        this.nombre = nombre;
+        this.apellido = apellido;
     }
-    public Autor(String nombre, String apellido,char sexo){
-        this.nombre=nombre;
-        this.apellido=apellido;
-        this.sexo=sexo;
+
+    public Autor(String nombre, String apellido, char genre) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.genre = genre;
     }
-    public void publicar(){
-        System.out.println (this.getNombre () + this.getNombre () +" ha publicado 200 libros."  );
+
+    public void publicar(int quantity) {
+        System.out.printf("El autor %s %s va a publicar %d libros\n", this.getNombre(), this.getApellido(), quantity);
     }
 }
